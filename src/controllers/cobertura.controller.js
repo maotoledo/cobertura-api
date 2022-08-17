@@ -16,7 +16,9 @@ var models = initModels(sequelize);
 
 export async function getClientes(req, res) {
   try {
-    const cliente = await models.tbl_clientes.findAll({});
+    const cliente = await models.tbl_clientes.findAll({
+      include: [{model:models.poliza_cliente, as:'poliza_clientes'}]
+    });
     res.json(cliente);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -28,6 +30,7 @@ export async function getClient(req, res) {
   const { id_cliente } = req.params;
   try {
     const project = await models.tbl_clientes.findOne({
+      include: [{model:models.poliza_cliente, as:'poliza_clientes'}],
       where: {
         id_cliente,
       },
