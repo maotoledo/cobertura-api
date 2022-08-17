@@ -11,17 +11,19 @@ This is a REST API using Javascript Technologies and Mysql.
 
 This is the basic relationship that we are using in this example
 
-![](./docs/diagram.png)
+Create models from existing database
+```
+sequelize-auto 
+```
 
 ## Project Structure
 
 ```bash
 .
 ├── package.json
-├── sql
-│   └── db.sql
 └── src
     ├── app.js
+    ├── index.js
     ├── controllers
     │   ├── ...
     ├── database

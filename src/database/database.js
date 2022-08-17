@@ -1,11 +1,13 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import Sequelize from "sequelize";
 
 export const sequelize = new Sequelize(
-  "aseguradora", // db name,
-  "admin", // username
-  "AdM!n$uPo0rT.2022", // password
+  process.env.DATABASE_NAME, 
+  process.env.DATABASE_USER, 
+  process.env.DATABASE_PASSWORD,
   {
-    host: "aseguradora.cbrvpgzwo1jx.us-east-2.rds.amazonaws.com",
+    host: process.env.DATABASE_HOST_COBERTURA,
     dialect: "mysql",
     // pool: {
     //   max: 5,
