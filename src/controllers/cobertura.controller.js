@@ -17,7 +17,25 @@ var models = initModels(sequelize);
 export async function getClientes(req, res) {
   try {
     const cliente = await models.tbl_clientes.findAll({
-      include: [{model:models.poliza_cliente, as:'poliza_clientes'}]
+      include: [{
+        model: models.poliza_cliente,
+        as: 'poliza_clientes',
+        include: [{
+          model: models.tbl_vehiculo_cliente,
+          as: 'tbl_vehiculo_cliente_id_cliente_tbl_vehiculo_cliente',
+          include: [{
+            model: models.tbl_marcas,
+            as: 'id_marca_tbl_marca'
+          }]
+        }, {
+          model: models.tbl_tipo_poliza,
+          as: 'id_tipo_poliza_tbl_tipo_poliza',
+          include: [{
+            model: models.tbl_tipo_cobertura,
+            as: 'id_cobertura_tbl_tipo_cobertura'
+          }]
+        }]
+      }],
     });
     res.json(cliente);
   } catch (error) {
@@ -30,7 +48,25 @@ export async function getClient(req, res) {
   const { id_cliente } = req.params;
   try {
     const project = await models.tbl_clientes.findOne({
-      include: [{model:models.poliza_cliente, as:'poliza_clientes'}],
+      include: [{
+        model: models.poliza_cliente,
+        as: 'poliza_clientes',
+        include: [{
+          model: models.tbl_vehiculo_cliente,
+          as: 'tbl_vehiculo_cliente_id_cliente_tbl_vehiculo_cliente',
+          include: [{
+            model: models.tbl_marcas,
+            as: 'id_marca_tbl_marca'
+          }]
+        }, {
+          model: models.tbl_tipo_poliza,
+          as: 'id_tipo_poliza_tbl_tipo_poliza',
+          include: [{
+            model: models.tbl_tipo_cobertura,
+            as: 'id_cobertura_tbl_tipo_cobertura'
+          }]
+        }]
+      }],
       where: {
         id_cliente,
       },
