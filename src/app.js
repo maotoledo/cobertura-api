@@ -14,7 +14,7 @@ import coberturaRoutes from "./routes/cobertura.routes.js";
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors({
-    methods: ['GET']
+    methods: ['GET', 'POST']
 }))
 
 // Routes

@@ -14,6 +14,58 @@ const sequelize = new Sequelize(
 );
 var models = initModels(sequelize);
 
+export async function createCliente(req, res) {
+  console.log(req.body)
+  const { cliente, poliza_cliente, tbl_tipo_poliza, tbl_vehiculo_cliente } = req.body;
+  const { nombres, apellidos, dpi, nit, direccion } = cliente;
+  const { id_cobertura, descripcion, precio } = tbl_tipo_poliza;
+  const { id_marca } = tbl_vehiculo_cliente;
+  const { id_contrato } = poliza_cliente;
+  try {
+    let newCliente = await models.tbl_clientes.create(
+      {
+        nombres,
+        apellidos,
+        dpi,
+        nit,
+        direccion
+      }
+    );
+    let newTipoPoliza = await models.tbl_tipo_poliza.create(
+      {
+        id_cobertura,
+        descripcion,
+        precio
+      }
+    );
+    let newVehiculoCliente = await models.tbl_vehiculo_cliente.create(
+      {
+        id_cliente: newCliente.id_cliente,
+        id_marca
+      }
+    );
+    await models.poliza_cliente.create(
+      {
+        id_contrato,
+        id_cliente: newCliente.id_cliente,
+        //TODO: Agregar fechas y tiempo contratado que permite null
+        id_tipo_poliza: newTipoPoliza.id_tipo_poliza,
+        tbl_vehiculo_cliente_id_vehiculo: newVehiculoCliente.id_vehiculo,
+        tbl_vehiculo_cliente_id_cliente: newCliente.id_cliente,
+        tbl_vehiculo_cliente_id_marca: id_marca
+      }
+    );
+
+    console.log(newCliente)
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+  res.json("created!");
+}
+
+
 export async function getClientes(req, res) {
   try {
     const cliente = await models.tbl_clientes.findAll({
