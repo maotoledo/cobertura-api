@@ -14,6 +14,22 @@ const sequelize = new Sequelize(
 );
 var models = initModels(sequelize);
 
+export async function getMarcas(req, res) {
+  try {
+    res.json(await models.tbl_marcas.findAll());
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+export async function getCoberturas(req, res) {
+  try {
+    res.json(await models.tbl_tipo_cobertura.findAll());
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 export async function createCliente(req, res) {
   console.log(req.body)
   const { cliente, poliza_cliente, tbl_tipo_poliza, tbl_vehiculo_cliente } = req.body;
@@ -62,7 +78,7 @@ export async function createCliente(req, res) {
       message: error.message,
     });
   }
-  res.json("created!");
+  res.json("received");
 }
 
 
