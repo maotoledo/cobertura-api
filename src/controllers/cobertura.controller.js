@@ -72,7 +72,7 @@ export async function createCliente(req, res) {
       }
     );
 
-    console.log(newCliente)
+    res.status(200).json(newCliente)
   } catch (error) {
     res.status(500).json({
       message: error.message,
